@@ -1,0 +1,12 @@
+@import 'reset.scss';
+@import 'variables/global.scss';
+@import "mixins/adaptive.scss";
+@import "mixins/adaptive-font.scss";
+@import "fonts/fonts.scss";
+
+.app {
+  background: var(--main-bg-color);
+  font-family: var(--mainFontFamily);
+  display: flex;
+  flex-direction: column;
+}

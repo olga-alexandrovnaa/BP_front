@@ -1,0 +1,20 @@
+@import "@/app/styles/mixins/adaptive.scss";
+
+.LoginPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+
+    @include size-tablet {
+        background-color: azure;
+    }
+}
+
+.FormContent{
+    width: 400px;
+}
+
+.Overlay{
+    background-color: var(--login-modal-bg-color);
+}

@@ -1,0 +1,85 @@
+@import "@/app/styles/mixins/adaptive.scss";
+
+.LoginForm{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.LoginWidget{
+    background-color: var(--bg-color);
+    border-radius: 30px;
+    padding: 50px;
+    margin-top: 10px;
+
+    .Logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .Error{
+        font-size: var(--fontSizeSmall);
+        color: var(--primary)
+    }
+
+    .loader{
+        margin-top: 20px;
+        padding: 15px 20px 15px 20px;
+    }
+
+    .loginBtn{
+        margin-top: 20px;
+        background-color: var(--primary);
+        color: var(--secondary-text) !important;
+        padding: 15px 20px 15px 20px;
+        height: auto;
+        font-size: var(--fontSize);
+        font-weight: bolder;
+    }
+}
+
+.CantLoginWidget{
+    margin-top: 10px;
+    border-radius: 30px;
+    border: 1px solid var(--borderColor);
+    display: flex;
+    flex-direction: row;
+    padding: 50px;
+
+    .left{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        .header{
+            font-size: var(--fontSizeLarge);
+        }
+        .info{
+            margin-top: 15px;
+            font-size: var(--fontSizeSmall);
+            color: var(--light-text)
+        }
+        .phone{
+            margin-top: 5px;
+            font-size: var(--fontSizeLarge);
+            font-weight: bolder;
+        }
+    }
+    .right{
+        border-radius: 10px;
+        background-color: var(--bg-color);
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        path {
+            stroke: var(--primary-text);
+        }
+    }
+    
+}

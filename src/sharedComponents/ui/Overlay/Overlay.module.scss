@@ -1,0 +1,11 @@
+.Overlay {
+    background: var(--bg-secondary-color);
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: calc(var(--modal-z-index) - 100);
+}
