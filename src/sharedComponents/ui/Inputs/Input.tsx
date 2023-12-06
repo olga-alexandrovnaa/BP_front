@@ -19,19 +19,20 @@ type HTMLInputProps = Omit<
 >;
 
 type Props = {
+  label: string;
   children?: ReactNode;
   onBlur?: () => void;
   onChange?: (value: any) => void;
   onPhotoChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   type?: string;
-  label: string;
   value?: any;
   width?: "small" | "smaller" | "medium" | "big" | "bigger";
-  icon?: ReactElement;
+  buttonIcon?: ReactElement;
+  rowStartIcon?: ReactElement;
   disabled?: boolean;
   textAfterInput?: string;
-  getDateValueString?: (date?: Date) => string;
+  dateValueString?: string;
   isWithEvent?: boolean;
   buttonLabel?: string;
   eventAction?: () => void;
@@ -43,23 +44,24 @@ type Props = {
 const Input = forwardRef<HTMLInputElement, Props>(
   (
     {
+      label,
       className,
       onBlur,
       onChange,
       children,
       onPhotoChange,
       value,
-      label,
       width,
       type,
       disabled,
       notDisabledEvent,
       textAfterInput,
-      getDateValueString,
+      dateValueString,
       isWithEvent,
       buttonLabel,
       eventAction,
-      icon,
+      buttonIcon,
+      rowStartIcon,
       clearable,
       required,
       ...props
@@ -67,7 +69,16 @@ const Input = forwardRef<HTMLInputElement, Props>(
     forwardedRef
   ) => {
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.target.value);
+      if (type === "number") {
+        let data = String(e.target.value);
+        if(data.length !== 1 && !['.', ','].includes(data[1])){
+          data = data.replace(/^0+/, '');
+          refInput.current.value = data;
+        }
+        onChange?.(Number(data));
+      } else {
+        onChange?.(e.target.value);
+      }
     };
 
     const onChangeTextAreaHandler = (
@@ -76,13 +87,39 @@ const Input = forwardRef<HTMLInputElement, Props>(
       onChange?.(e.target.value);
     };
 
-    const IconComponent = icon ?? <span />;
+    const rowStartIconComponent = rowStartIcon ?? null;
+    const buttonIconComponent = buttonIcon ?? null;
 
     const onButtonClick = useCallback(() => {
       if (eventAction) eventAction();
     }, [eventAction]);
 
+    const refInput = useRef<HTMLInputElement>(null);
+
     const ref = useRef<HTMLTextAreaElement>(null);
+
+    const onInputClick = useCallback(() => {
+      if (type === "number") {
+        if (refInput.current) {
+          refInput.current.focus();
+          if(value == 0){
+            refInput.current.select();
+          }
+        }
+      } else if (type === "textarea") {
+        if (ref.current) {
+          ref.current.focus();
+        }
+      } else {
+        if (refInput.current) {
+          if (type === "date") {
+            refInput.current.showPicker();
+          } else {
+            refInput.current.focus();
+          }
+        }
+      }
+    }, [type, value]);
 
     useEffect(() => {
       if (ref.current) {
@@ -100,11 +137,11 @@ const Input = forwardRef<HTMLInputElement, Props>(
       <div className={styles.htmlInputBlock}>
         <input
           onChange={onChangeHandler}
-          className={classNames(
-            styles.htmlInput,
-            {[styles.disabled]: disabled}
-          )}
-          value={value ?? ""}
+          className={classNames(styles.htmlInput, {
+            [styles.disabled]: disabled,
+          })}
+          ref={refInput}
+          value={value ?? ''}
           disabled={disabled}
           {...props}
           type={type}
@@ -116,14 +153,14 @@ const Input = forwardRef<HTMLInputElement, Props>(
 
     if (type === "textarea") {
       input = (
-        <div className={styles.htmlInputBlock}>
+        <div className={styles.htmlInputBlockTextArea}>
           <textarea
             onChange={onChangeTextAreaHandler}
-            className={classNames(
-              styles.htmlInput,
-              {[styles.disabled]: disabled}
-            )}
-            value={value ?? ""}
+            className={classNames(styles.htmlInput, {
+              [styles.disabled]: disabled,
+            })}
+            value={value ?? undefined}
+            placeholder={props.placeholder}
             ref={ref}
             disabled={disabled}
             onBlur={onBlur}
@@ -139,10 +176,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
           onChange={onChangeHandler}
           value={value ?? "+7 (***) *** - ** - **"}
           alwaysShowMask
-          className={classNames(
-            styles.htmlInput,
-            {[styles.disabled]: disabled}
-          )}
+          className={classNames(styles.htmlInput, {
+            [styles.disabled]: disabled,
+          })}
           disabled={disabled}
           mask="+7 (***) *** - ** - **"
           maskChar="_"
@@ -158,10 +194,10 @@ const Input = forwardRef<HTMLInputElement, Props>(
           <input
             onChange={onChangeHandler}
             value={value}
-            className={classNames(
-              styles.htmlInputDate,
-              {[styles.disabled]: disabled}
-            )}
+            ref={refInput}
+            className={classNames(styles.htmlInputDate, {
+              [styles.disabled]: disabled,
+            })}
             {...props}
             type={type}
             disabled={disabled}
@@ -169,21 +205,16 @@ const Input = forwardRef<HTMLInputElement, Props>(
           />
 
           <div
-            className={classNames(
-              styles.htmlInputText,
-              {[styles.disabled]: disabled}
-            )}
+            className={classNames(styles.htmlInputText, {
+              [styles.disabled]: disabled,
+            })}
           >
-            {value
-              ? getDateValueString
-                ? getDateValueString(value)
-                : value
-              : ""}
+            {dateValueString ? dateValueString : value ?? ""}
           </div>
 
           {clearable && !!value && (
             <div className={styles.clear} onClick={() => onChange(undefined)}>
-              <Clear width={12} height={12} />
+              <Clear width={10} height={10} />
             </div>
           )}
         </div>
@@ -203,10 +234,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
             disabled={disabled}
             onChange={onPhotoChange}
             onBlur={onBlur}
-            className={classNames(
-              styles.htmlInput,
-              {[styles.disabled]: disabled}
-            )}
+            className={classNames(styles.htmlInput, {
+              [styles.disabled]: disabled,
+            })}
             {...props}
           />
         </div>
@@ -223,40 +253,38 @@ const Input = forwardRef<HTMLInputElement, Props>(
           },
           [className]
         )}
+        onClick={onInputClick}
       >
+        {!!rowStartIcon && (
+          <span className={styles.rowStartIcon}>{rowStartIconComponent}</span>
+        )}
+
+        {label}
         <div
-          className={
-            type !== "file" ? styles.inputBlock : styles.inputBlockFile
-          }
+          className={classNames(styles.inputBlock, {
+            [styles.inputBlockFile]: type === "file",
+            [styles.inputBlockTextArea]: type === "textarea",
+          })}
         >
-          <span className={classNames(styles.inputLabel)}>
-            {label}
-            {required && (
-              <span className={classNames(styles.required)}>
-                {` (Обязательное поле)`}
-              </span>
-            )}
-          </span>
           {children ? children : input}
         </div>
-        {/* {isWithEvent !== undefined ? ( */}
         {type === "file" && (
           <label className={styles.img}>{value ? value : undefined}</label>
         )}
-        {(!disabled || notDisabledEvent) && (
-          <button
-            className={classNames(
-              styles.button,
-              {[styles.disabled]: disabled}
-            )}
-            onClick={onButtonClick}
-          >
-            {!!icon && <span className={styles.icon}>{IconComponent}</span>}
-            {!!buttonLabel && <span>{buttonLabel}</span>}
-          </button>
-        )}
-
-        {/* ) : null} */}
+        {(!disabled || notDisabledEvent) &&
+          (!!buttonIconComponent || !!buttonLabel) && (
+            <button
+              className={classNames(styles.button, {
+                [styles.disabled]: disabled,
+              })}
+              onClick={onButtonClick}
+            >
+              {!!buttonIcon && (
+                <span className={styles.icon}>{buttonIconComponent}</span>
+              )}
+              {!!buttonLabel && <span>{buttonLabel}</span>}
+            </button>
+          )}
       </div>
     );
   }

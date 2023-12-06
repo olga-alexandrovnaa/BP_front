@@ -1,183 +1,194 @@
-
 .input {
-    background: var(--white);
-    border: 1px solid var(--borderColor);
-    border-radius: 14px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-}
+  background: rgba(255, 255, 255, 0);
+  border: 1px solid var(--borderColor);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-left: 10px;
+  margin: 5px;
+  
+  align-items: stretch;
+  cursor: text;
 
-.required{
-   color: var(--primary);
-   font-size: var(--fontSizeSmall);
-}
+  .rowStartIcon {
+    vertical-align: middle;
+    padding: 5px;
+  }
 
-input[type=file] {
-    display: none;
-}
-
-.disabled {
-    background-color: var(--main-bg-color) !important;
-    border: 1px solid var(--main-bg-color) !important;
-}
-
-.small {
-    width: 138px;
-}
-
-.smaller {
-    width: 85px;
-}
-
-.medium {
-    width: 278px;
-}
-
-.big {
-    width: 368px;
-}
-
-.bigger {
-    width: 100%;
-}
-
-.inputBlock {
+  .inputBlock, .inputBlockTextArea {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
-}
+    
 
-.inputLabel {
-    font-size: var(--fontSizeSmall);
-    color: var(--light-text);
-}
+    .htmlInputBlock, .htmlInputBlockTextArea{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      box-sizing: border-box;
 
+      .uploadPhotoLabel {
+        margin-top: 7px;
+        cursor: pointer;
+      }
 
-.htmlInput {
-    flex-grow: 1;
-    height: 22px;
-    margin-top: 6px;
-    background: var(--bg-color);
-    border: none;
-    outline: none;
-    font-size: var(--fontSize);
-    color: var(--primary-text);
+      .htmlInput {
+        flex-grow: 1;
+        height: 22px;
+        background: rgba(255, 255, 255, 0);
+        border: none;
+        outline: none;
+        // font-size: var(--fontSize);
+        color: var(--primary-text);
+      }
+    }
 
-}
+    .htmlInputBlockTextArea{
+      align-self: start;
+    }
+    .dateDiv {
+      position: relative;
+      width: 10rem;
 
-.htmlInputDate {
-    width: 100%;
-    height: 22px;
-    margin-top: 6px;
-    background: var(--bg-color);
-    border: none;
-    outline: none;
-    font-size: var(--fontSize);
-    color: var(--primary-text);
+      .htmlInputDate {
+        width: 100%;
+        height: 22px;
+        background: rgba(255, 255, 255, 0);
+        border: none;
+        outline: none;
+        // font-size: var(--fontSize);
+        color: var(--primary-text);
+      }
 
-}
-
-.input input[type="date"] {
-    position: relative;
-    color: rgba(255, 255, 255, 0);
-}
-
-// .input input[type="date"]::-webkit-calendar-picker-indicator {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     width: auto;
-//     height: auto;
-//     color: transparent;
-//     background: transparent;
-// }
-
-.input input[type=date]::-webkit-datetime-edit-text {
-    -webkit-appearance: none;
-    display: none;
-}
-
-.input input[type=date]::-webkit-datetime-edit-month-field {
-    -webkit-appearance: none;
-    display: none;
-}
-
-.input input[type=date]::-webkit-datetime-edit-day-field {
-    -webkit-appearance: none;
-    display: none;
-}
-
-.input input[type=date]::-webkit-datetime-edit-year-field {
-    -webkit-appearance: none;
-    display: none;
-}
-
-.htmlInputText {
-    position: absolute;
-    margin-top: -22px;
-    font-weight: 500;
-    font-size: var(--fontSize);
-    color: var(--primary-text);
-
-    pointer-events: none;
-}
-
-.dateDiv{
-    position: relative;
-    .clear{
+      .clear {
         cursor: pointer;
         position: absolute;
         right: 25px;
         top: 10px;
+      }
     }
-}
 
-.button {
-    border: none;
-    outline: none;
-    height: max-content;
-    background-color: var(--bg-color);
-    font-size:var(--fontSizeSmall);
-    color: var(--primary-text);
-    cursor: pointer;
-}
-
-.icon {
-    vertical-align: middle;
-}
-
-.htmlInputBlock{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    span{
-        margin-top: 7px;
-        margin-left: 5px;
+    .htmlInputText {
+      position: absolute;
+      margin-top: -22px;
+      font-weight: 500;
+      // font-size: var(--fontSize);
+      color: var(--primary-text);
+      pointer-events: none;
     }
-}
+  }
 
-.uploadPhotoLabel{
-    margin-top: 7px;
-    cursor: pointer;
-}
-.inputBlockFile{
+  inputBlockTextArea{
+    justify-content: flex-start ;
+    align-items: flex-start;
+  }
+  .inputBlockFile {
     margin-top: -7px;
-}
+  }
 
-.img{
+  .img {
     margin-left: 10px;
     width: 50px;
     height: 50px;
 
     img {
-        width: inherit;
-        border-radius: 10px;
+      width: inherit;
+      border-radius: 10px;
     }
+  }
+
+  .button {
+    border: none;
+    outline: none;
+    height: max-content;
+    background: rgba(255, 255, 255, 0);
+    font-size: var(--fontSizeSmall);
+    color: var(--primary-text);
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+
+    span {
+      display: flex;
+      align-self: center;
+    }
+
+    .icon {
+      vertical-align: middle;
+    }
+  }
+}
+
+input {
+  width: 100%;
+  // padding-bottom: 5px;
+}
+
+textarea {
+  resize: none !important;
+  // display: flex;
+}
+
+// textarea::placeholder {
+//     height: inherit;
+// }
+
+// textarea::-ms-input-placeholder {
+//     // text-align: center;
+// }
+
+.input input[type="number"] {
+  text-align: center;
+}
+
+.input input[type="date"] {
+  position: relative;
+  color: rgba(255, 255, 255, 0);
+}
+
+input::-webkit-calendar-picker-indicator{
+  display: none;
+}
+
+input[type="date"]::-webkit-input-placeholder{ 
+  visibility: hidden !important;
+}
+
+.input input[type="date"]::-webkit-datetime-edit-text {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.input input[type="date"]::-webkit-datetime-edit-month-field {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.input input[type="date"]::-webkit-datetime-edit-day-field {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.input input[type="date"]::-webkit-datetime-edit-year-field {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.required {
+  color: var(--primary);
+  //    font-size: var(--fontSizeSmall);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.disabled {
+  background-color: var(--main-bg-color) !important;
+  border: 1px solid var(--main-bg-color) !important;
 }

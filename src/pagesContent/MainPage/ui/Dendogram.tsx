@@ -220,7 +220,7 @@ function Dendogram({ width, height, data }: DendrogramProps) {
   }
 
   return (
-    <div>
+    <div className="dendogram">
       <svg width={width} height={height}>
         <g
           width={boundsWidth}

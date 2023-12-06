@@ -2,6 +2,8 @@ import cls from "./MainPage.module.scss";
 import Dendogram from "./Dendogram";
 import { Button } from "@/sharedComponents/ui/Button";
 import { useCallback, useState } from "react";
+import TreeComponent from "./Tree";
+import { Input } from "@/sharedComponents/ui/Inputs/Input";
 
 export type Node = {
   type: "node";
@@ -125,6 +127,8 @@ export type Data = Node | Leaf;
 function MainPage() {
   const [data, setData] = useState();
   const [processId, setProcessId] = useState(18);
+  const [width, setWidth] = useState(2000);
+  const [height, setHeight] = useState(1000);
 
   const loadData = useCallback(async () => {
     const response = await fetch(`http://localhost:5001/api/${processId}`);
@@ -143,7 +147,7 @@ function MainPage() {
             }
           }
       }
-      d.nameInfo = d.id + ' ' + d.shablonAction.name;
+      d.nameInfo = d.id + " " + d.shablonAction.name;
       d.completeInfo = d.completed
         ? `(Выполнил ${d.setCompleteUser.name})`
         : d.closed
@@ -177,23 +181,16 @@ function MainPage() {
 
   console.log(data);
 
-  const start = useCallback(() => {
-    // const formData = new URLSearchParams();
-    // formData.append("email", authData.email);
-    // formData.append("password", authData.password);
-    // const response = await fetch(__API__ + "login", {
-    //   credentials: "include",
-    //   method: "POST",
-    //   body: formData,
-    // });
-    // const responseJSON = await response.json();
-    // const res = await fetch();
-  }, []);
-
   return (
     <div className={cls.MainPage}>
+      <Input label={'id процесса'} type='number' value={processId} onChange={(val) => setProcessId(val)}/>
+      <Input label={'ширина блока'} type='number' value={width} onChange={(val) => setWidth(val)}/>
+      <Input label={'высота блока'} type='number' value={height} onChange={(val) => setHeight(val)}/>
       <Button onClick={loadData}>Обновить состояния</Button>
-      {!!data && <Dendogram data={data} width={2000} height={1000} />}
+     
+
+      {!!data && <Dendogram data={data} width={width} height={height} />}
+      {/* {!!data && <TreeComponent data={data}/>} */}
     </div>
   );
 }
